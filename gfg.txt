@@ -1,0 +1,35 @@
+Given a string s of lowercase alphabets and a number k, the task is to print the minimum value of the string after removal of k characters. The value of a string is defined as the sum of squares of the count of each distinct character present in the string.
+
+ typedef pair<int,char>P;
+
+    int minValue(string s, int k){
+        // code here
+        unordered_map<char,int>m;
+        for(int i=0;i<s.length();i++){
+            char ch=s[i];
+            m[ch]++;
+        }
+        
+        priority_queue<P,vector<P>>pq;
+        
+        for(auto it=m.begin(); it!=m.end();it++){
+            pq.push({it->second,it->first});
+        }
+        
+        while(k){
+            int num=pq.top().first;
+            char ch=pq.top().second;
+            pq.pop();
+            num--;
+            pq.push({num,ch});
+            k--;
+        }
+        
+        int ans=0;
+        while(!pq.empty()){
+           int num=pq.top().first;
+           pq.pop();
+           ans+=num*num;
+        }
+        return ans;
+    } 
